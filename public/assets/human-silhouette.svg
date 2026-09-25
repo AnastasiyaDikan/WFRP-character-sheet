@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 520" role="img" aria-labelledby="title">
+  <title id="title">Силуэт человека</title>
+  <g fill="#777166" stroke="#4a463f" stroke-width="3" stroke-linejoin="round">
+    <circle cx="110" cy="50" r="35"/>
+    <path d="M79 91 Q110 76 141 91 L153 225 Q149 251 135 267 L137 493 Q132 512 112 507 L102 293 L94 507 Q73 512 68 493 L75 267 Q57 246 64 225 Z"/>
+    <path d="M76 102 Q53 106 45 137 L16 276 Q12 294 29 299 Q44 300 49 283 L82 166 Z"/>
+    <path d="M144 102 Q167 106 175 137 L204 276 Q208 294 191 299 Q176 300 171 283 L138 166 Z"/>
+  </g>
+  <path d="M110 15V508 M47 180H173 M65 259H155" stroke="#b7ad9c" stroke-width="2" stroke-dasharray="6 8" opacity=".65"/>
+</svg>

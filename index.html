@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#171411" />
+    <title>WFRP 4e — Лист персонажа</title>
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+  <body>
+    <div id="welcome" class="welcome">
+      <main class="welcome-card">
+        <div class="sigil" aria-hidden="true">⚔</div>
+        <p class="eyebrow">Warhammer Fantasy Roleplay</p>
+        <h1>Лист персонажа</h1>
+        <p class="edition">Четвёртая редакция</p>
+        <div class="welcome-actions">
+          <button id="new-character" class="button button-primary">Новый персонаж</button>
+          <button id="load-character" class="button button-secondary">Загрузить персонажа</button>
+          <button id="continue-character" class="button button-ghost" hidden>Продолжить</button>
+        </div>
+        <p class="welcome-note">Данные сохраняются автоматически в этом браузере.</p>
+      </main>
+    </div>
+
+    <div id="app" class="app" hidden>
+      <header class="toolbar">
+        <div class="brand"><span>WFRP</span><small>Лист персонажа</small></div>
+        <nav class="page-tabs" aria-label="Страницы листа">
+          <button class="tab is-active" data-page="1">Лицевая сторона</button>
+          <button class="tab" data-page="2">Снаряжение</button>
+          <button id="arcane-tab" class="tab" data-page="3" hidden>Заклинания</button>
+        </nav>
+        <div class="toolbar-actions">
+          <span id="save-status" class="save-status">Сохранено</span>
+          <button id="export-character" class="tool-button">Скачать JSON</button>
+          <button id="import-character" class="tool-button">Загрузить JSON</button>
+          <button id="back-home" class="tool-button">В меню</button>
+        </div>
+      </header>
+
+      <main class="sheet-wrap">
+        <form id="character-form" autocomplete="off">
+          <section class="sheet page is-active" data-sheet-page="1">
+            <header class="sheet-title">
+              <span>Warhammer</span><strong>Fantasy Roleplay</strong><small>Лист персонажа · 4 редакция</small>
+            </header>
+
+            <section class="panel identity-grid">
+              <label>Имя<input name="identity.name" /></label>
+              <label>Вид<input name="identity.species" /></label>
+              <label>Класс<select id="class-select" name="identity.class"></select></label>
+              <label>Карьера<select id="career-select" name="identity.career" disabled></select></label>
+              <label>Карьерный уровень<select id="career-level-select" name="identity.careerLevel" disabled><option value="">Выберите уровень</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></label>
+              <label>Карьерный путь<input id="career-path" name="identity.careerPath" readonly /></label>
+              <label>Статус<input id="career-status" name="identity.status" readonly /></label>
+              <label>Возраст<input name="identity.age" /></label>
+              <label>Рост / Вес<input name="identity.heightWeight" /></label>
+              <label>Волосы<input name="identity.hair" /></label>
+              <label>Глаза<input name="identity.eyes" /></label>
+            </section>
+
+            <section class="panel">
+              <h2>Характеристики</h2>
+              <div id="characteristics-table" class="table-wrap"></div>
+            </section>
+
+            <div class="two-columns top-stats">
+              <section class="panel compact"><h2>Судьба</h2><div class="mini-grid">
+                <label>Судьба<input type="number" name="resources.fate" /></label>
+                <label>Удача<input type="number" name="resources.fortune" /></label>
+              </div></section>
+              <section class="panel compact"><h2>Несгибаемость</h2><div class="mini-grid three">
+                <label>Несгиб.<input type="number" name="resources.resilience" /></label>
+                <label>Решит.<input type="number" name="resources.resolve" /></label>
+                <label>Мотивация<input name="resources.motivation" /></label>
+              </div></section>
+              <section class="panel compact"><h2>Опыт</h2><div class="mini-grid three">
+                <label>Текущий<input type="number" name="experience.current" /></label>
+                <label>Потрачено<input type="number" name="experience.spent" /></label>
+                <label>Всего<output data-output="experience.total">0</output></label>
+              </div></section>
+              <section class="panel compact"><h2>Передвижение</h2><div class="mini-grid three">
+                <label>Движение<input type="number" name="movement.value" /></label>
+                <label>Шаг<output data-output="movement.walk">0</output></label>
+                <label>Бег<output data-output="movement.run">0</output></label>
+              </div></section>
+            </div>
+
+            <section class="panel">
+              <h2>Умения</h2>
+              <div class="skills-layout">
+                <div><h3>Базовые умения</h3><div id="basic-skills"></div></div>
+                <div><div class="section-heading"><h3>Обобщённые и продвинутые</h3><button type="button" class="add-button" data-add="skills">+ Добавить</button></div><div id="advanced-skills"></div></div>
+              </div>
+            </section>
+
+            <div class="two-columns lower-grid">
+              <section class="panel"><div class="section-heading"><h2>Таланты</h2><div class="heading-actions"><button type="button" id="open-talent-catalog" class="add-button">Справочник</button><button type="button" class="add-button" data-add="talents">+ Добавить вручную</button></div></div><div id="talents"></div></section>
+              <div>
+                <section class="panel"><h2>Амбиции</h2><label>Краткосрочные<textarea name="ambitions.short"></textarea></label><label>Продолжительные<textarea name="ambitions.long"></textarea></label></section>
+                <section class="panel"><h2>Группа</h2><label>Название группы<input name="party.name" /></label><label>Краткосрочные<textarea name="party.short"></textarea></label><label>Продолжительные<textarea name="party.long"></textarea></label><label>Участники<textarea name="party.members"></textarea></label></section>
+              </div>
+            </div>
+          </section>
+
+          <section class="sheet page" data-sheet-page="2">
+            <div class="two-columns equipment-top">
+              <div>
+                <section class="panel"><div class="section-heading"><h2>Доспехи</h2><button type="button" class="add-button" data-add="armour">+ Добавить</button></div><div id="armour"></div></section>
+                <section class="panel"><div class="section-heading"><h2>Имущество</h2><button type="button" class="add-button" data-add="trappings">+ Добавить</button></div><div id="trappings"></div></section>
+              </div>
+              <div>
+                <section class="panel hit-location-panel"><h2>Карта попаданий</h2>
+                  <div class="hit-map" aria-label="Карта попаданий и очков брони">
+                    <div class="hit-side hit-side-left">
+                      <label class="hit-zone"><span>Голова</span><small>01–09</small><input type="number" name="armourPoints.head" aria-label="КД головы" placeholder="КД" /></label>
+                      <label class="hit-zone"><span>Правая рука</span><small>25–44</small><input type="number" name="armourPoints.rightArm" aria-label="КД правой руки" placeholder="КД" /></label>
+                      <label class="hit-zone"><span>Правая нога</span><small>90–00</small><input type="number" name="armourPoints.rightLeg" aria-label="КД правой ноги" placeholder="КД" /></label>
+                    </div>
+                    <img class="human-silhouette" src="./assets/human-silhouette.svg" alt="Силуэт человека" />
+                    <div class="hit-side hit-side-right">
+                      <label class="hit-zone"><span>Левая рука</span><small>10–24</small><input type="number" name="armourPoints.leftArm" aria-label="КД левой руки" placeholder="КД" /></label>
+                      <label class="hit-zone"><span>Тело</span><small>45–79</small><input type="number" name="armourPoints.body" aria-label="КД тела" placeholder="КД" /></label>
+                      <label class="hit-zone"><span>Левая нога</span><small>80–89</small><input type="number" name="armourPoints.leftLeg" aria-label="КД левой ноги" placeholder="КД" /></label>
+                    </div>
+                    <label class="hit-zone hit-shield"><span>Щит</span><input type="number" name="armourPoints.shield" aria-label="КД щита" placeholder="КД" /></label>
+                  </div>
+                </section>
+                <section class="panel"><h2>Психология</h2><textarea name="psychology"></textarea><h3>Осквернения и мутации</h3><textarea name="corruption"></textarea></section>
+                <div class="two-columns micro">
+                  <section class="panel"><h2>Богатство</h2><label>Медь<input type="number" name="wealth.brass" /></label><label>Серебро<input type="number" name="wealth.silver" /></label><label>Золото<input type="number" name="wealth.gold" /></label></section>
+                  <section class="panel wounds-panel"><h2>Раны</h2><label>Текущие<input type="number" name="wounds.current" /></label><label>Максимум<output data-output="wounds.max">0</output></label><p id="wounds-formula" class="formula-note">БСил + 2×БВын + БСВ</p></section>
+                </div>
+              </div>
+            </div>
+            <section class="panel"><div class="section-heading"><h2>Оружие</h2><button type="button" class="add-button" data-add="weapons">+ Добавить</button></div><div id="weapons"></div></section>
+          </section>
+
+          <section id="arcane-sheet" class="sheet page" data-sheet-page="3">
+            <header class="sheet-title"><span>Warhammer</span><strong id="arcane-page-title">Заклинания</strong><small id="arcane-page-subtitle">Магия и чудеса</small></header>
+            <section class="panel"><div class="section-heading"><h2 id="arcane-section-title">Заклинания</h2><div class="heading-actions"><button type="button" id="open-spell-catalog" class="add-button">Справочник заклинаний</button><button type="button" class="add-button" data-add="spells">+ Добавить вручную</button></div></div><div id="spells"></div></section>
+          </section>
+        </form>
+      </main>
+    </div>
+    <input id="file-input" type="file" accept="application/json,.json" hidden />
+    <dialog id="skill-dialog" class="modal">
+      <form id="skill-dialog-form">
+        <div class="modal-heading"><h2>Добавить умение</h2><button type="button" id="close-skill-dialog" class="modal-close" aria-label="Закрыть">×</button></div>
+        <label>Название умения<input id="new-skill-name" required autocomplete="off" /></label>
+        <label>Связанная характеристика<select id="new-skill-characteristic" required></select></label>
+        <label>Начальное повышение<input id="new-skill-advances" type="number" min="0" value="0" /></label>
+        <label>Поиск по справочнику<input id="skill-catalog-search" type="search" placeholder="Начните вводить название" /></label>
+        <div id="skill-catalog-list" class="catalog-list compact-catalog"></div>
+        <div class="modal-actions"><button type="button" id="cancel-skill" class="button button-secondary">Отмена</button><button type="submit" class="button button-primary">Добавить</button></div>
+      </form>
+    </dialog>
+    <dialog id="talent-catalog-dialog" class="modal catalog-modal">
+      <form method="dialog">
+        <div class="modal-heading"><h2>Справочник талантов</h2><button type="button" id="close-talent-catalog" class="modal-close" aria-label="Закрыть">×</button></div>
+        <label>Поиск<input id="talent-catalog-search" type="search" placeholder="Название таланта" autofocus /></label>
+        <p class="catalog-hint">Зелёным отмечены таланты, доступные на выбранной ступени карьеры.</p>
+        <div id="talent-catalog-list" class="catalog-list"></div>
+      </form>
+    </dialog>
+    <dialog id="spell-catalog-dialog" class="modal catalog-modal">
+      <form method="dialog">
+        <div class="modal-heading"><h2>Справочник заклинаний</h2><button type="button" id="close-spell-catalog" class="modal-close" aria-label="Закрыть">×</button></div>
+        <div class="catalog-filters">
+          <label>Поиск<input id="spell-catalog-search" type="search" placeholder="Название заклинания" /></label>
+          <label>Школа магии<select id="spell-school-filter"><option value="">Все школы</option></select></label>
+        </div>
+        <p id="spell-catalog-count" class="catalog-hint"></p>
+        <div id="spell-catalog-list" class="catalog-list"></div>
+      </form>
+    </dialog>
+    <dialog id="discord-dialog" class="modal discord-dialog">
+      <form id="discord-form">
+        <div class="modal-heading"><h2>Броски в Discord</h2><button type="button" id="close-discord-dialog" class="modal-close" aria-label="Закрыть">×</button></div>
+        <p class="discord-note">URL вебхука хранится только в этом браузере и не попадает в JSON персонажа или файлы сайта.</p>
+        <label>URL вебхука Discord<span class="secret-input"><input id="discord-webhook" type="password" placeholder="https://discord.com/api/webhooks/…" autocomplete="off" spellcheck="false" /><button id="toggle-discord-secret" type="button" aria-label="Показать или скрыть URL">Показать</button></span></label>
+        <label class="discord-enable"><input id="discord-enabled" type="checkbox" /> Дублировать новые броски в этот канал</label>
+        <p id="discord-status" class="discord-status" aria-live="polite"></p>
+        <p class="discord-warning"><strong>Важно:</strong> вебхук даёт право писать в канал. Не публикуйте его в Git и не показывайте на скриншотах.</p>
+        <div class="modal-actions"><button type="button" id="test-discord" class="button button-secondary">Проверить</button><button type="submit" class="button button-primary">Сохранить</button></div>
+      </form>
+    </dialog>
+    <div id="dice-widget" class="dice-widget">
+      <button id="dice-launch" class="dice-launch" type="button" aria-label="Открыть палитру кубиков" title="Бросить кубик">◆</button>
+      <div id="dice-palette" class="dice-palette" hidden>
+        <output id="dice-result" class="dice-result" aria-live="polite"></output>
+        <button type="button" class="polyhedral-die die-d4" data-die="4">d4</button>
+        <button type="button" class="polyhedral-die die-d6" data-die="6">d6</button>
+        <button type="button" class="polyhedral-die die-d8" data-die="8">d8</button>
+        <button type="button" class="polyhedral-die die-d10" data-die="10">d10</button>
+        <button type="button" class="polyhedral-die die-d12" data-die="12">d12</button>
+        <button type="button" class="polyhedral-die die-d20" data-die="20">d20</button>
+        <button type="button" class="polyhedral-die die-d100" data-die="100">d100</button>
+        <div class="dice-center-controls"><button id="dice-close" type="button" aria-label="Закрыть палитру">×</button><button id="open-discord-dialog" type="button">Discord</button></div>
+      </div>
+    </div>
+    <div id="reference-tooltip" class="reference-tooltip" role="tooltip"></div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

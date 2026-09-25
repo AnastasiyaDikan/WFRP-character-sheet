@@ -1,0 +1,482 @@
+[
+  {
+    "id": 1,
+    "name": "Азартные игры",
+    "nameEn": "Gamble",
+    "characteristicName": "Интеллект",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Азартные игры» связан с характеристикой «Интеллект». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 2,
+    "name": "Артистизм",
+    "nameEn": "Entertain",
+    "characteristicName": "Харизма",
+    "professional": false,
+    "grouped": true,
+    "source": "Книга правил",
+    "description": "Навык «Артистизм» связан с характеристикой «Харизма». Тип: общий, групповой. Источник: Книга правил."
+  },
+  {
+    "id": 45,
+    "name": "Атлетика",
+    "nameEn": "Athletics",
+    "characteristicName": "Проворство",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Атлетика» связан с характеристикой «Проворство». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 3,
+    "name": "Верховая езда",
+    "nameEn": "Ride",
+    "characteristicName": "Проворство",
+    "professional": false,
+    "grouped": true,
+    "source": "Книга правил",
+    "description": "Навык «Верховая езда» связан с характеристикой «Проворство». Тип: общий, групповой. Источник: Книга правил."
+  },
+  {
+    "id": 4,
+    "name": "Взлом",
+    "nameEn": "Pick Lock",
+    "characteristicName": "Ловкость",
+    "professional": true,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Взлом» связан с характеристикой «Ловкость». Тип: профессиональный. Источник: Книга правил."
+  },
+  {
+    "id": 5,
+    "name": "Вождение",
+    "nameEn": "Drive",
+    "characteristicName": "Проворство",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Вождение» связан с характеристикой «Проворство». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 6,
+    "name": "Выживание",
+    "nameEn": "Outdoor Survival",
+    "characteristicName": "Интеллект",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Выживание» связан с характеристикой «Интеллект». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 7,
+    "name": "Выслеживание",
+    "nameEn": "Track",
+    "characteristicName": "Инициатива",
+    "professional": true,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Выслеживание» связан с характеристикой «Инициатива». Тип: профессиональный. Источник: Книга правил."
+  },
+  {
+    "id": 8,
+    "name": "Гребля",
+    "nameEn": "Row",
+    "characteristicName": "Сила",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Гребля» связан с характеристикой «Сила». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 9,
+    "name": "Дрессировка",
+    "nameEn": "Animal Training",
+    "characteristicName": "Интеллект",
+    "professional": true,
+    "grouped": true,
+    "source": "Книга правил",
+    "description": "Навык «Дрессировка» связан с характеристикой «Интеллект». Тип: профессиональный, групповой. Источник: Книга правил."
+  },
+  {
+    "id": 10,
+    "name": "Запугивание",
+    "nameEn": "Intimidate",
+    "characteristicName": "Сила",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Запугивание» связан с характеристикой «Сила». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 11,
+    "name": "Знание",
+    "nameEn": "Lore",
+    "characteristicName": "Интеллект",
+    "professional": true,
+    "grouped": true,
+    "source": "Книга правил",
+    "description": "Навык «Знание» связан с характеристикой «Интеллект». Тип: профессиональный, групповой. Источник: Книга правил."
+  },
+  {
+    "id": 12,
+    "name": "Интуиция",
+    "nameEn": "Intuition",
+    "characteristicName": "Инициатива",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Интуиция» связан с характеристикой «Инициатива». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 13,
+    "name": "Искусство",
+    "nameEn": "Art",
+    "characteristicName": "Ловкость",
+    "professional": false,
+    "grouped": true,
+    "source": "Книга правил",
+    "description": "Навык «Искусство» связан с характеристикой «Ловкость». Тип: общий, групповой. Источник: Книга правил."
+  },
+  {
+    "id": 14,
+    "name": "Книжные изыскания",
+    "nameEn": "Research",
+    "characteristicName": "Интеллект",
+    "professional": true,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Книжные изыскания» связан с характеристикой «Интеллект». Тип: профессиональный. Источник: Книга правил."
+  },
+  {
+    "id": 48,
+    "name": "Ковка рун",
+    "nameEn": "Runesmithing",
+    "characteristicName": "Ловкость",
+    "professional": true,
+    "grouped": false,
+    "source": "Гномы. Руководство игрока",
+    "description": "Навык «Ковка рун» связан с характеристикой «Ловкость». Тип: профессиональный. Источник: Гномы. Руководство игрока."
+  },
+  {
+    "id": 15,
+    "name": "Концентрация",
+    "nameEn": "Channelling",
+    "characteristicName": "Сила воли",
+    "professional": true,
+    "grouped": true,
+    "source": "Книга правил",
+    "description": "Навык «Концентрация» связан с характеристикой «Сила воли». Тип: профессиональный, групповой. Источник: Книга правил."
+  },
+  {
+    "id": 16,
+    "name": "Кутёж",
+    "nameEn": "Consume Alcohol",
+    "characteristicName": "Выносливость",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Кутёж» связан с характеристикой «Выносливость». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 17,
+    "name": "Лазание",
+    "nameEn": "Climb",
+    "characteristicName": "Сила",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Лазание» связан с характеристикой «Сила». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 18,
+    "name": "Лечение",
+    "nameEn": "Heal",
+    "characteristicName": "Интеллект",
+    "professional": true,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Лечение» связан с характеристикой «Интеллект». Тип: профессиональный. Источник: Книга правил."
+  },
+  {
+    "id": 19,
+    "name": "Лидерство",
+    "nameEn": "Leadership",
+    "characteristicName": "Харизма",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Лидерство» связан с характеристикой «Харизма». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 20,
+    "name": "Ловкость рук",
+    "nameEn": "Sleight of Hand",
+    "characteristicName": "Ловкость",
+    "professional": true,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Ловкость рук» связан с характеристикой «Ловкость». Тип: профессиональный. Источник: Книга правил."
+  },
+  {
+    "id": 21,
+    "name": "Молитвословие",
+    "nameEn": "Pray",
+    "characteristicName": "Харизма",
+    "professional": true,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Молитвословие» связан с характеристикой «Харизма». Тип: профессиональный. Источник: Книга правил."
+  },
+  {
+    "id": 22,
+    "name": "Музицирование",
+    "nameEn": "Play",
+    "characteristicName": "Ловкость",
+    "professional": true,
+    "grouped": true,
+    "source": "Книга правил",
+    "description": "Навык «Музицирование» связан с характеристикой «Ловкость». Тип: профессиональный, групповой. Источник: Книга правил."
+  },
+  {
+    "id": 23,
+    "name": "Наблюдательность",
+    "nameEn": "Perception",
+    "characteristicName": "Инициатива",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Наблюдательность» связан с характеристикой «Инициатива». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 24,
+    "name": "Обаяние",
+    "nameEn": "Charm",
+    "characteristicName": "Харизма",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Обаяние» связан с характеристикой «Харизма». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 25,
+    "name": "Обращение с животными",
+    "nameEn": "Animal Care",
+    "characteristicName": "Интеллект",
+    "professional": true,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Обращение с животными» связан с характеристикой «Интеллект». Тип: профессиональный. Источник: Книга правил."
+  },
+  {
+    "id": 26,
+    "name": "Обращение с ловушками",
+    "nameEn": "Set Trap",
+    "characteristicName": "Ловкость",
+    "professional": true,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Обращение с ловушками» связан с характеристикой «Ловкость». Тип: профессиональный. Источник: Книга правил."
+  },
+  {
+    "id": 27,
+    "name": "Ориентирование",
+    "nameEn": "Navigation",
+    "characteristicName": "Инициатива",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Ориентирование» связан с характеристикой «Инициатива». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 28,
+    "name": "Оценка",
+    "nameEn": "Evaluate",
+    "characteristicName": "Интеллект",
+    "professional": true,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Оценка» связан с характеристикой «Интеллект». Тип: профессиональный. Источник: Книга правил."
+  },
+  {
+    "id": 29,
+    "name": "Плавание",
+    "nameEn": "Swim",
+    "characteristicName": "Сила",
+    "professional": true,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Плавание» связан с характеристикой «Сила». Тип: профессиональный. Источник: Книга правил."
+  },
+  {
+    "id": 30,
+    "name": "Подкуп",
+    "nameEn": "Bribery",
+    "characteristicName": "Харизма",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Подкуп» связан с характеристикой «Харизма». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 47,
+    "name": "Прорицание",
+    "nameEn": "Augury",
+    "characteristicName": "Интеллект",
+    "professional": true,
+    "grouped": false,
+    "source": "Ветры магии",
+    "description": "Навык «Прорицание» связан с характеристикой «Интеллект». Тип: профессиональный. Источник: Ветры магии."
+  },
+  {
+    "id": 46,
+    "name": "Психометрия",
+    "nameEn": "Psychometry",
+    "characteristicName": "Интеллект",
+    "professional": true,
+    "grouped": false,
+    "source": "Альтдорф - Корона Империи",
+    "description": "Навык «Психометрия» связан с характеристикой «Интеллект». Тип: профессиональный. Источник: Альтдорф - Корона Империи."
+  },
+  {
+    "id": 31,
+    "name": "Ремесло",
+    "nameEn": "Trade",
+    "characteristicName": "Ловкость",
+    "professional": true,
+    "grouped": true,
+    "source": "Книга правил",
+    "description": "Навык «Ремесло» связан с характеристикой «Ловкость». Тип: профессиональный, групповой. Источник: Книга правил."
+  },
+  {
+    "id": 32,
+    "name": "Рукопашный бой",
+    "nameEn": "Melee",
+    "characteristicName": "Ближний бой",
+    "professional": false,
+    "grouped": true,
+    "source": "Книга правил",
+    "description": "Навык «Рукопашный бой» связан с характеристикой «Ближний бой». Тип: общий, групповой. Источник: Книга правил."
+  },
+  {
+    "id": 33,
+    "name": "Скрытность",
+    "nameEn": "Stealth",
+    "characteristicName": "Проворство",
+    "professional": false,
+    "grouped": true,
+    "source": "Книга правил",
+    "description": "Навык «Скрытность» связан с характеристикой «Проворство». Тип: общий, групповой. Источник: Книга правил."
+  },
+  {
+    "id": 34,
+    "name": "Сплетничество",
+    "nameEn": "Gossip",
+    "characteristicName": "Харизма",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Сплетничество» связан с характеристикой «Харизма». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 35,
+    "name": "Стойкость",
+    "nameEn": "Endurance",
+    "characteristicName": "Выносливость",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Стойкость» связан с характеристикой «Выносливость». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 36,
+    "name": "Стрельба",
+    "nameEn": "Ranged",
+    "characteristicName": "Дистанционный бой",
+    "professional": true,
+    "grouped": true,
+    "source": "Книга правил",
+    "description": "Навык «Стрельба» связан с характеристикой «Дистанционный бой». Тип: профессиональный, групповой. Источник: Книга правил."
+  },
+  {
+    "id": 37,
+    "name": "Сценическое искусство",
+    "nameEn": "Perform",
+    "characteristicName": "Проворство",
+    "professional": true,
+    "grouped": true,
+    "source": "Книга правил",
+    "description": "Навык «Сценическое искусство» связан с характеристикой «Проворство». Тип: профессиональный, групповой. Источник: Книга правил."
+  },
+  {
+    "id": 38,
+    "name": "Тайные знаки",
+    "nameEn": "Secret Signs",
+    "characteristicName": "Интеллект",
+    "professional": true,
+    "grouped": true,
+    "source": "Книга правил",
+    "description": "Навык «Тайные знаки» связан с характеристикой «Интеллект». Тип: профессиональный, групповой. Источник: Книга правил."
+  },
+  {
+    "id": 39,
+    "name": "Торговля",
+    "nameEn": "Haggle",
+    "characteristicName": "Харизма",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Торговля» связан с характеристикой «Харизма». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 40,
+    "name": "Уклонение",
+    "nameEn": "Dodge",
+    "characteristicName": "Проворство",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Уклонение» связан с характеристикой «Проворство». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 41,
+    "name": "Усмирение животных",
+    "nameEn": "Charm Animal",
+    "characteristicName": "Сила воли",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Усмирение животных» связан с характеристикой «Сила воли». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 42,
+    "name": "Хладнокровие",
+    "nameEn": "Cool",
+    "characteristicName": "Сила воли",
+    "professional": false,
+    "grouped": false,
+    "source": "Книга правил",
+    "description": "Навык «Хладнокровие» связан с характеристикой «Сила воли». Тип: общий. Источник: Книга правил."
+  },
+  {
+    "id": 43,
+    "name": "Хождение под парусом",
+    "nameEn": "Sail",
+    "characteristicName": "Проворство",
+    "professional": true,
+    "grouped": true,
+    "source": "Книга правил",
+    "description": "Навык «Хождение под парусом» связан с характеристикой «Проворство». Тип: профессиональный, групповой. Источник: Книга правил."
+  },
+  {
+    "id": 44,
+    "name": "Язык",
+    "nameEn": "Language",
+    "characteristicName": "Интеллект",
+    "professional": true,
+    "grouped": true,
+    "source": "Книга правил",
+    "description": "Навык «Язык» связан с характеристикой «Интеллект». Тип: профессиональный, групповой. Источник: Книга правил."
+  }
+]
