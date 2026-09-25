@@ -49,7 +49,16 @@
 
             <section class="panel identity-grid">
               <label>Имя<input name="identity.name" /></label>
-              <label>Вид<input name="identity.species" /></label>
+              <label>Вид<select id="species-select" name="identity.species">
+                <option value="">Выберите вид</option>
+                <option value="Человек">Человек</option>
+                <option value="Дварф">Дварф</option>
+                <option value="Полурослик">Полурослик</option>
+                <option value="Высший эльф">Высший эльф</option>
+                <option value="Лесной эльф">Лесной эльф</option>
+                <option value="Гном">Гном</option>
+                <option value="Огр">Огр</option>
+              </select></label>
               <label>Класс<select id="class-select" name="identity.class"></select></label>
               <label>Карьера<select id="career-select" name="identity.career" disabled></select></label>
               <label>Карьерный уровень<select id="career-level-select" name="identity.careerLevel" disabled><option value="">Выберите уровень</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></label>
@@ -119,7 +128,7 @@
                       <label class="hit-zone"><span>Правая рука</span><small>25–44</small><input type="number" name="armourPoints.rightArm" aria-label="КД правой руки" placeholder="КД" /></label>
                       <label class="hit-zone"><span>Правая нога</span><small>90–00</small><input type="number" name="armourPoints.rightLeg" aria-label="КД правой ноги" placeholder="КД" /></label>
                     </div>
-                    <img class="human-silhouette" src="./assets/human-silhouette.svg" alt="Силуэт человека" />
+                    <img id="hit-silhouette" class="human-silhouette" src="./assets/silhouettes/human.png" alt="Силуэт человека" />
                     <div class="hit-side hit-side-right">
                       <label class="hit-zone"><span>Левая рука</span><small>10–24</small><input type="number" name="armourPoints.leftArm" aria-label="КД левой руки" placeholder="КД" /></label>
                       <label class="hit-zone"><span>Тело</span><small>45–79</small><input type="number" name="armourPoints.body" aria-label="КД тела" placeholder="КД" /></label>

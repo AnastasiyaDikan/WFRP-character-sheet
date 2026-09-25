@@ -31,7 +31,7 @@ export const CLASS_CAREERS = {
 };
 
 export const EMPTY_STATE = {
-  version: 4,
+  version: 5,
   identity: {}, characteristics: {}, resources: {}, experience: {}, movement: {},
   skills: [], talents: [], ambitions: {}, party: {}, armour: [], trappings: [],
   armourPoints: {}, psychology: '', corruption: '', wealth: {}, wounds: {},

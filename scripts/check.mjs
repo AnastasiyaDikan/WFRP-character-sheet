@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { resolveDuration, resolveTalentMaximum } from '../src/formulas.js';
 import TALENTS from '../src/data/talents.json' with { type: 'json' };
 import SPELLS from '../src/data/spells.json' with { type: 'json' };
@@ -26,4 +28,9 @@ assert.ok(wanderingShadow.description.length > 200, 'Описание «Блуж
 assert.equal(TALENTS.length, 202, 'Неожиданное количество талантов');
 assert.ok(new Set(SPELLS.map((spell) => spell.school)).size >= 20, 'Слишком мало школ магии');
 
-console.log(`Проверено: ${TALENTS.length} талантов, ${SPELLS.length} заклинаний, формулы характеристик.`);
+for (const species of ['human', 'dwarf', 'halfling', 'elf', 'gnome', 'ogre']) {
+  const path = fileURLToPath(new URL(`../public/assets/silhouettes/${species}.png`, import.meta.url));
+  assert.ok(existsSync(path), `Отсутствует силуэт: ${species}`);
+}
+
+console.log(`Проверено: ${TALENTS.length} талантов, ${SPELLS.length} заклинаний, формулы и 6 силуэтов.`);
