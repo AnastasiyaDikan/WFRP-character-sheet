@@ -1,9 +1,15 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#171411" />
+    <script>
+      try {
+        const savedTheme = localStorage.getItem('wfrp4-theme-v1');
+        if (savedTheme === 'dark') document.documentElement.dataset.theme = 'dark';
+      } catch {}
+    </script>
     <title>WFRP 4e — Лист персонажа</title>
     <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
     <link rel="stylesheet" href="src/styles.css" />
@@ -11,6 +17,7 @@
   <body>
     <div id="welcome" class="welcome">
       <main class="welcome-card">
+        <button type="button" class="welcome-theme-toggle" data-theme-toggle aria-pressed="false">☾ Ночная тема</button>
         <div class="sigil" aria-hidden="true">⚔</div>
         <p class="eyebrow">Warhammer Fantasy Roleplay</p>
         <h1>Лист персонажа</h1>
@@ -34,6 +41,7 @@
         </nav>
         <div class="toolbar-actions">
           <span id="save-status" class="save-status">Сохранено</span>
+          <button type="button" class="tool-button theme-toggle" data-theme-toggle aria-pressed="false">☾ Ночная тема</button>
           <button id="export-character" class="tool-button">Скачать JSON</button>
           <button id="import-character" class="tool-button">Загрузить JSON</button>
           <button id="back-home" class="tool-button">В меню</button>

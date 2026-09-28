@@ -5,7 +5,7 @@ import SKILLS from './data/skills.json' with { type: 'json' };
 import TALENTS from './data/talents.json' with { type: 'json' };
 import SPELLS from './data/spells.json' with { type: 'json' };
 
-const STORAGE_KEY='wfrp4-character-v1',DISCORD_STORAGE_KEY='wfrp4-discord-webhook-v1',$=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)],clone=v=>JSON.parse(JSON.stringify(v));
+const STORAGE_KEY='wfrp4-character-v1',DISCORD_STORAGE_KEY='wfrp4-discord-webhook-v1',THEME_STORAGE_KEY='wfrp4-theme-v1',$=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)],clone=v=>JSON.parse(JSON.stringify(v));
 const careerMap=new Map(CAREERS.map(x=>[x.name,x])),skillMap=new Map(SKILLS.map(x=>[norm(x.name),x])),talentMap=new Map(TALENTS.map(x=>[norm(x.name),x]));
 const spellMap=new Map(SPELLS.map(x=>[norm(x.name),x]));
 const basicMap=new Map(BASIC_SKILLS.map(([name,characteristic],index)=>[norm(name),{name,characteristic,index}]));
@@ -28,6 +28,13 @@ let state=clone(EMPTY_STATE),saveTimer,context={characteristics:new Set(),skills
 function norm(v){return String(v||'').trim().toLocaleLowerCase('ru-RU')} function base(v){return norm(v).replace(/\s*\([^)]*\)\s*$/,'').trim()} function num(v){return Number(v)||0}
 function esc(v){return String(v??'').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]))}
 function get(o,p){return p.split('.').reduce((v,k)=>v?.[k],o)} function set(o,p,v){const ks=p.split('.');let t=o;ks.slice(0,-1).forEach(k=>t=t[k]??={});t[ks.at(-1)]=v}
+function activeTheme(){return document.documentElement.dataset.theme==='dark'?'dark':'light'}
+function applyTheme(theme,persist=true){const dark=theme==='dark',value=dark?'dark':'light';document.documentElement.dataset.theme=value;const meta=$('meta[name="theme-color"]');if(meta)meta.content=dark?'#10110f':'#171411';$$('[data-theme-toggle]').forEach(button=>{button.textContent=dark?'☀ Дневная тема':'☾ Ночная тема';button.setAttribute('aria-pressed',String(dark));button.title=dark?'Переключить на дневную тему':'Переключить на ночную тему'});if(persist){try{localStorage.setItem(THEME_STORAGE_KEY,value)}catch{}}}
+function toggleTheme(){applyTheme(activeTheme()==='dark'?'light':'dark')}
+let themeBeforePrint='';
+window.addEventListener('beforeprint',()=>{themeBeforePrint=activeTheme();applyTheme('light',false)});
+window.addEventListener('afterprint',()=>{if(themeBeforePrint)applyTheme(themeBeforePrint,false);themeBeforePrint=''});
+window.addEventListener('storage',event=>{if(event.key===THEME_STORAGE_KEY&&(event.newValue==='dark'||event.newValue==='light'))applyTheme(event.newValue,false)});
 function basic(name){const n=norm(name),a=aliases[n]||n;return basicMap.get(a)||(!n.includes('(')?basicMap.get(base(a)):null)}
 function skillRef(name){const n=norm(name);return [n,aliases[n],base(n),aliases[base(n)]].filter(Boolean).map(x=>skillMap.get(x)).find(Boolean)}
 function talentRef(name){return talentMap.get(norm(name))||talentMap.get(base(name))} function charRef(item){return characteristicNames[norm(item?.characteristicName)]||''}
@@ -127,4 +134,4 @@ $('#toggle-discord-secret').onclick=()=>{const input=$('#discord-webhook'),visib
 $('#discord-form').onsubmit=event=>{event.preventDefault();const webhookUrl=$('#discord-webhook').value.trim(),enabled=$('#discord-enabled').checked;if(webhookUrl&&!validWebhook(webhookUrl)){$('#discord-status').textContent='Проверьте URL: нужен вебхук discord.com/api/webhooks/…';return}if(enabled&&!webhookUrl){$('#discord-status').textContent='Для отправки нужен URL вебхука.';return}localStorage.setItem(DISCORD_STORAGE_KEY,JSON.stringify({enabled,webhookUrl}));updateDiscordIndicator();$('#discord-dialog').close();toast('Настройки Discord сохранены')};
 $('#test-discord').onclick=async()=>{const settings={enabled:true,webhookUrl:$('#discord-webhook').value.trim()};if(!validWebhook(settings.webhookUrl)){$('#discord-status').textContent='Сначала вставьте корректный URL вебхука.';return}$('#discord-status').textContent='Отправка…';try{await postDiscord(discordPayload('Проверка подключения','Вебхук WFRP-листа работает.'),settings,true);$('#discord-status').textContent='Сообщение доставлено ✓'}catch(error){$('#discord-status').textContent=`Ошибка: ${error.message}`}};
 
-renderCharacteristics();renderBasic();populateClasses();populateCareers('');$('#new-skill-characteristic').innerHTML='<option value="">Выберите характеристику</option>'+CHARACTERISTICS.map(([v,s,n])=>`<option value="${v}">${s} — ${n}</option>`).join('');$('#continue-character').hidden=!localStorage.getItem(STORAGE_KEY);updateDiscordIndicator();
+$$('[data-theme-toggle]').forEach(button=>button.addEventListener('click',toggleTheme));applyTheme(activeTheme(),false);renderCharacteristics();renderBasic();populateClasses();populateCareers('');$('#new-skill-characteristic').innerHTML='<option value="">Выберите характеристику</option>'+CHARACTERISTICS.map(([v,s,n])=>`<option value="${v}">${s} — ${n}</option>`).join('');$('#continue-character').hidden=!localStorage.getItem(STORAGE_KEY);updateDiscordIndicator();

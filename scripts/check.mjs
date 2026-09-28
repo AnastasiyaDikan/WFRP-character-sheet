@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { resolveDuration, resolveTalentMaximum } from '../src/formulas.js';
 import TALENTS from '../src/data/talents.json' with { type: 'json' };
@@ -33,4 +33,13 @@ for (const species of ['human', 'dwarf', 'halfling', 'elf', 'gnome', 'ogre']) {
   assert.ok(existsSync(path), `Отсутствует силуэт: ${species}`);
 }
 
-console.log(`Проверено: ${TALENTS.length} талантов, ${SPELLS.length} заклинаний, формулы и 6 силуэтов.`);
+const fontPath = fileURLToPath(new URL('../public/assets/fonts/Metamorphous.ttf', import.meta.url));
+assert.ok(existsSync(fontPath), 'Отсутствует шрифт Metamorphous');
+const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+const styles = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8');
+const main = readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
+assert.equal((html.match(/data-theme-toggle/g) || []).length, 2, 'Переключатели темы не найдены');
+assert.ok(styles.includes("html[data-theme='dark'] .sheet"), 'Стили ночной темы не найдены');
+assert.ok(main.includes("THEME_STORAGE_KEY='wfrp4-theme-v1'"), 'Сохранение темы не подключено');
+
+console.log(`Проверено: ${TALENTS.length} талантов, ${SPELLS.length} заклинаний, формулы, 6 силуэтов, шрифт и две темы.`);
