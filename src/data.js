@@ -31,15 +31,16 @@ export const CLASS_CAREERS = {
 };
 
 export const EMPTY_STATE = {
-  version: 5,
+  version: 6,
   identity: {}, characteristics: {}, resources: {}, experience: {}, movement: {},
+  portrait: { image: '', crop: { x: 0, y: 0, zoom: 1 } },
   skills: [], talents: [], ambitions: {}, party: {}, armour: [], trappings: [],
   armourPoints: {}, psychology: '', corruption: '', wealth: {}, wounds: {},
   weapons: [], spells: [], sin: '', updatedAt: null,
 };
 
 export const ROW_SCHEMAS = {
-  skills: [['name','Название'], ['characteristic','Характеристика','select'], ['advances','Повыш.','number'], ['value','Умение','output']],
+  skills: [['name','Название'], ['characteristic','Хар.','select'], ['advances','Повыш.','number'], ['value','Умение','output']],
   talents: [['name','Название'], ['taken','Взятий','number'], ['description','Описание']],
   armour: [['name','Название'], ['locations','Покрытие'], ['enc','Вес','number'], ['ap','ОБ','number'], ['qualities','Качества']],
   trappings: [['name','Название'], ['enc','Вес','number']],

@@ -72,3 +72,27 @@ export function resolveDuration(duration, getBonus) {
 
   return changed ? result.replace(/\*/g, '×') : '';
 }
+
+export function evaluateD100Check(threshold, roll) {
+  const target = Math.max(0, Math.trunc(Number(threshold) || 0));
+  const value = Math.max(1, Math.min(100, Math.trunc(Number(roll) || 1)));
+  const success = value === 1 || (value !== 100 && value <= target);
+  const successLevel = Math.floor(target / 10) - Math.floor(value / 10);
+  const isDouble = value === 100 || (value >= 11 && value <= 99 && value % 11 === 0);
+  const criticalSuccess = success && (value === 1 || isDouble);
+  const criticalFailure = !success && isDouble;
+  const successes = success ? Math.max(0, successLevel) + (value === 1 ? 1 : 0) : 0;
+  const failures = success ? 0 : Math.max(0, -successLevel);
+
+  return {
+    target,
+    roll: value,
+    success,
+    successLevel,
+    successes,
+    failures,
+    isDouble,
+    criticalSuccess,
+    criticalFailure,
+  };
+}

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { resolveDuration, resolveTalentMaximum } from '../src/formulas.js';
+import { evaluateD100Check, resolveDuration, resolveTalentMaximum } from '../src/formulas.js';
 import TALENTS from '../src/data/talents.json' with { type: 'json' };
 import SPELLS from '../src/data/spells.json' with { type: 'json' };
 
@@ -14,6 +14,18 @@ assert.equal(resolveDuration('[2 × РЕЙТИНГ СИЛЫ ВОЛИ] РАУНД
 assert.equal(resolveTalentMaximum('РИнт', getBonus).display, '6');
 assert.equal(resolveTalentMaximum('РИнт + РСВ', getBonus).display, '13');
 assert.equal(resolveTalentMaximum('Нет', getBonus).display, '∞');
+
+const crossedTen = evaluateD100Check(67, 59);
+assert.equal(crossedTen.success, true);
+assert.equal(crossedTen.successes, 1, '59 против 67 должно давать 1 успех');
+assert.equal(crossedTen.successLevel, 1);
+assert.equal(evaluateD100Check(67, 63).successes, 0, 'В одном десятке нет дополнительных успехов');
+const naturalOne = evaluateD100Check(67, 1);
+assert.equal(naturalOne.criticalSuccess, true);
+assert.equal(naturalOne.successes, 7, 'Единица добавляет 1 успех');
+assert.equal(evaluateD100Check(67, 55).criticalSuccess, true, 'Успешный дубль — критический успех');
+assert.equal(evaluateD100Check(67, 77).criticalFailure, true, 'Неудачный дубль — критический провал');
+assert.equal(evaluateD100Check(100, 100).criticalFailure, true, '100 всегда остаётся критическим провалом');
 
 const alterEgo = TALENTS.find((talent) => talent.name.toLocaleLowerCase('ru-RU') === 'альтер эго');
 assert.ok(alterEgo, 'В справочнике отсутствует талант «Альтер эго»');
@@ -41,5 +53,9 @@ const main = readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
 assert.equal((html.match(/data-theme-toggle/g) || []).length, 2, 'Переключатели темы не найдены');
 assert.ok(styles.includes("html[data-theme='dark'] .sheet"), 'Стили ночной темы не найдены');
 assert.ok(main.includes("THEME_STORAGE_KEY='wfrp4-theme-v1'"), 'Сохранение темы не подключено');
+assert.ok(html.includes('id="portrait-file"') && html.includes('id="portrait-crop-dialog"'), 'Редактор портрета не подключён');
+assert.ok(html.includes('id="dice-result-avatar"'), 'Миниатюра в результате броска не найдена');
+assert.ok(main.includes("attachment://character-portrait.png"), 'Портрет не включён в Discord-бросок');
+assert.ok(styles.includes('.schema-skills .data-head'), 'Ширина таблицы специализированных навыков не настроена');
 
-console.log(`Проверено: ${TALENTS.length} талантов, ${SPELLS.length} заклинаний, формулы, 6 силуэтов, шрифт и две темы.`);
+console.log(`Проверено: ${TALENTS.length} талантов, ${SPELLS.length} заклинаний, формулы, d100, портрет, 6 силуэтов, шрифт и две темы.`);

@@ -55,27 +55,40 @@
               <span>Warhammer</span><strong>Fantasy Roleplay</strong><small>Лист персонажа · 4 редакция</small>
             </header>
 
-            <section class="panel identity-grid">
-              <label>Имя<input name="identity.name" /></label>
-              <label>Вид<select id="species-select" name="identity.species">
-                <option value="">Выберите вид</option>
-                <option value="Человек">Человек</option>
-                <option value="Дварф">Дварф</option>
-                <option value="Полурослик">Полурослик</option>
-                <option value="Высший эльф">Высший эльф</option>
-                <option value="Лесной эльф">Лесной эльф</option>
-                <option value="Гном">Гном</option>
-                <option value="Огр">Огр</option>
-              </select></label>
-              <label>Класс<select id="class-select" name="identity.class"></select></label>
-              <label>Карьера<select id="career-select" name="identity.career" disabled></select></label>
-              <label>Карьерный уровень<select id="career-level-select" name="identity.careerLevel" disabled><option value="">Выберите уровень</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></label>
-              <label>Карьерный путь<input id="career-path" name="identity.careerPath" readonly /></label>
-              <label>Статус<input id="career-status" name="identity.status" readonly /></label>
-              <label>Возраст<input name="identity.age" /></label>
-              <label>Рост / Вес<input name="identity.heightWeight" /></label>
-              <label>Волосы<input name="identity.hair" /></label>
-              <label>Глаза<input name="identity.eyes" /></label>
+            <section class="panel identity-panel">
+              <aside class="portrait-card" aria-label="Арт персонажа">
+                <button id="portrait-preview" class="portrait-preview" type="button" title="Открыть арт в полном размере" disabled>
+                  <img id="portrait-small" alt="Миниатюра персонажа" hidden />
+                  <span id="portrait-placeholder"><b>+</b>Арт персонажа</span>
+                </button>
+                <div class="portrait-actions">
+                  <label class="portrait-action">Загрузить<input id="portrait-file" type="file" accept="image/png,image/jpeg,image/webp" hidden /></label>
+                  <button id="portrait-edit" class="portrait-action" type="button" hidden>Кадр</button>
+                  <button id="portrait-remove" class="portrait-action danger" type="button" hidden>Удалить</button>
+                </div>
+              </aside>
+              <div class="identity-grid">
+                <label>Имя<input name="identity.name" /></label>
+                <label>Вид<select id="species-select" name="identity.species">
+                  <option value="">Выберите вид</option>
+                  <option value="Человек">Человек</option>
+                  <option value="Дварф">Дварф</option>
+                  <option value="Полурослик">Полурослик</option>
+                  <option value="Высший эльф">Высший эльф</option>
+                  <option value="Лесной эльф">Лесной эльф</option>
+                  <option value="Гном">Гном</option>
+                  <option value="Огр">Огр</option>
+                </select></label>
+                <label>Класс<select id="class-select" name="identity.class"></select></label>
+                <label>Карьера<select id="career-select" name="identity.career" disabled></select></label>
+                <label>Карьерный уровень<select id="career-level-select" name="identity.careerLevel" disabled><option value="">Выберите уровень</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></label>
+                <label>Карьерный путь<input id="career-path" name="identity.careerPath" readonly /></label>
+                <label>Статус<input id="career-status" name="identity.status" readonly /></label>
+                <label>Возраст<input name="identity.age" /></label>
+                <label>Рост / Вес<input name="identity.heightWeight" /></label>
+                <label>Волосы<input name="identity.hair" /></label>
+                <label>Глаза<input name="identity.eyes" /></label>
+              </div>
             </section>
 
             <section class="panel">
@@ -204,10 +217,32 @@
         <div class="modal-actions"><button type="button" id="test-discord" class="button button-secondary">Проверить</button><button type="submit" class="button button-primary">Сохранить</button></div>
       </form>
     </dialog>
+    <dialog id="portrait-viewer-dialog" class="modal portrait-viewer-dialog">
+      <div class="portrait-dialog-content">
+        <div class="modal-heading"><h2>Арт персонажа</h2><button id="close-portrait-viewer" type="button" class="modal-close" aria-label="Закрыть">×</button></div>
+        <img id="portrait-large" class="portrait-large" alt="Арт персонажа в полном размере" />
+        <div class="modal-actions"><button id="portrait-edit-large" type="button" class="button button-primary">Настроить миниатюру</button></div>
+      </div>
+    </dialog>
+    <dialog id="portrait-crop-dialog" class="modal portrait-crop-dialog">
+      <form id="portrait-crop-form">
+        <div class="modal-heading"><h2>Кадр миниатюры</h2><button id="close-portrait-crop" type="button" class="modal-close" aria-label="Закрыть">×</button></div>
+        <p class="portrait-help">Перетаскивайте изображение мышью. Этот квадрат пойдёт в маленький портрет и броски.</p>
+        <div id="portrait-crop-stage" class="portrait-crop-stage">
+          <img id="portrait-crop-image" alt="" draggable="false" />
+          <span class="portrait-crop-grid" aria-hidden="true"></span>
+        </div>
+        <label class="portrait-zoom">Масштаб<input id="portrait-zoom" type="range" min="1" max="3" step="0.01" value="1" /></label>
+        <div class="modal-actions"><button id="portrait-reset-crop" type="button" class="button button-secondary">Сбросить</button><button id="portrait-cancel-crop" type="button" class="button button-secondary">Отмена</button><button type="submit" class="button button-primary">Сохранить кадр</button></div>
+      </form>
+    </dialog>
     <div id="dice-widget" class="dice-widget">
       <button id="dice-launch" class="dice-launch" type="button" aria-label="Открыть палитру кубиков" title="Бросить кубик">◆</button>
       <div id="dice-palette" class="dice-palette" hidden>
-        <output id="dice-result" class="dice-result" aria-live="polite"></output>
+        <div id="dice-result" class="dice-result" aria-live="polite">
+          <span id="dice-result-avatar" class="dice-result-avatar" hidden><img id="dice-result-avatar-image" alt="" /></span>
+          <span id="dice-result-text" class="dice-result-text">Выберите кубик</span>
+        </div>
         <button type="button" class="polyhedral-die die-d4" data-die="4">d4</button>
         <button type="button" class="polyhedral-die die-d6" data-die="6">d6</button>
         <button type="button" class="polyhedral-die die-d8" data-die="8">d8</button>
