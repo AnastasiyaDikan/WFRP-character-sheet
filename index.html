@@ -94,6 +94,7 @@
             <section class="panel">
               <h2>Характеристики</h2>
               <div id="characteristics-table" class="table-wrap"></div>
+              <p id="talent-effects-note" class="formula-note talent-effects-note" hidden></p>
             </section>
 
             <div class="two-columns top-stats">
@@ -119,15 +120,15 @@
             </div>
 
             <section class="panel">
-              <h2>Умения</h2>
+              <div class="section-heading"><h2>Умения</h2><div class="sheet-list-tools"><label class="sheet-list-search">Поиск<input id="skills-list-search" data-sheet-list-search="skills" type="search" placeholder="Название умения" autocomplete="off" /></label><span id="skills-list-count" class="sheet-list-count"></span></div></div>
               <div class="skills-layout">
-                <div><h3>Базовые умения</h3><div id="basic-skills"></div></div>
-                <div><div class="section-heading"><h3>Обобщённые и продвинутые</h3><button type="button" class="add-button" data-add="skills">+ Добавить</button></div><div id="advanced-skills"></div></div>
+                <div><h3>Базовые умения</h3><div id="basic-skills" class="sheet-list-viewport"></div></div>
+                <div><div class="section-heading"><h3>Обобщённые и продвинутые</h3><button type="button" class="add-button" data-add="skills">+ Добавить</button></div><div id="advanced-skills" class="sheet-list-viewport"></div></div>
               </div>
             </section>
 
             <div class="two-columns lower-grid">
-              <section class="panel"><div class="section-heading"><h2>Таланты</h2><div class="heading-actions"><button type="button" id="open-talent-catalog" class="add-button">Справочник</button><button type="button" class="add-button" data-add="talents">+ Добавить вручную</button></div></div><div id="talents"></div></section>
+              <section class="panel"><div class="section-heading"><h2>Таланты</h2><div class="heading-actions"><button type="button" id="open-talent-catalog" class="add-button">Справочник</button><button type="button" class="add-button" data-add="talents">+ Добавить вручную</button></div></div><div class="sheet-list-tools"><label class="sheet-list-search">Поиск<input id="talents-list-search" data-sheet-list-search="talents" type="search" placeholder="Название или описание" autocomplete="off" /></label><span id="talents-list-count" class="sheet-list-count"></span></div><div id="talents" class="sheet-list-viewport"></div></section>
               <div>
                 <section class="panel"><h2>Амбиции</h2><label>Краткосрочные<textarea name="ambitions.short"></textarea></label><label>Продолжительные<textarea name="ambitions.long"></textarea></label></section>
                 <section class="panel"><h2>Группа</h2><label>Название группы<input name="party.name" /></label><label>Краткосрочные<textarea name="party.short"></textarea></label><label>Продолжительные<textarea name="party.long"></textarea></label><label>Участники<textarea name="party.members"></textarea></label></section>
@@ -170,7 +171,7 @@
 
           <section id="arcane-sheet" class="sheet page" data-sheet-page="3">
             <header class="sheet-title"><span>Warhammer</span><strong id="arcane-page-title">Заклинания</strong><small id="arcane-page-subtitle">Магия и чудеса</small></header>
-            <section class="panel"><div class="section-heading"><h2 id="arcane-section-title">Заклинания</h2><div class="heading-actions"><button type="button" id="open-spell-catalog" class="add-button">Справочник заклинаний</button><button type="button" class="add-button" data-add="spells">+ Добавить вручную</button></div></div><div id="spells"></div></section>
+            <section class="panel"><div class="section-heading"><h2 id="arcane-section-title">Заклинания</h2><div class="heading-actions"><button type="button" id="open-spell-catalog" class="add-button">Справочник заклинаний</button><button type="button" class="add-button" data-add="spells">+ Добавить вручную</button></div></div><div class="sheet-list-tools"><label class="sheet-list-search">Поиск<input id="spells-list-search" data-sheet-list-search="spells" type="search" placeholder="Название, школа или эффект" autocomplete="off" /></label><span id="spells-list-count" class="sheet-list-count"></span></div><div id="spells" class="sheet-list-viewport spell-list-viewport"></div></section>
           </section>
         </form>
       </main>
@@ -202,6 +203,7 @@
           <label>Поиск<input id="spell-catalog-search" type="search" placeholder="Название заклинания" /></label>
           <label>Школа магии<select id="spell-school-filter"><option value="">Все школы</option></select></label>
         </div>
+        <label class="grimoire-catalog-toggle"><input id="spell-add-grimoire" type="checkbox" /> <span aria-hidden="true">📖</span> Добавлять выбранные заклинания в гримуар</label>
         <p id="spell-catalog-count" class="catalog-hint"></p>
         <div id="spell-catalog-list" class="catalog-list"></div>
       </form>

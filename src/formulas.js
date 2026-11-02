@@ -21,7 +21,83 @@ const CHARACTERISTIC_NAMES = new Map([
 const normalize = (value) => String(value || '')
   .trim()
   .toLocaleLowerCase('ru-RU')
+  .replace(/ё/g, 'е')
   .replace(/\s+/g, ' ');
+
+const AUTOMATIC_TALENT_ALIASES = new Map([
+  ['hardy', 'здоровяк'],
+  ['стойкий', 'здоровяк'],
+  ['хладнокровный', 'самообладание'],
+  ['молниеносные рефлексы', 'молниеносная реакция'],
+  ['very resilient', 'закалка'],
+  ['nimble fingered', 'ловкие пальцы'],
+  ['marksman', 'меткость'],
+  ['lightning reflexes', 'молниеносная реакция'],
+  ['warrior born', 'прирожденный воин'],
+  ['sharp', 'проницательность'],
+  ['coolheaded', 'самообладание'],
+  ['very strong', 'силач'],
+  ['savvy', 'смекалка'],
+  ['suave', 'учтивость'],
+]);
+
+const CHARACTERISTIC_TALENT_EFFECTS = new Map([
+  ['закалка', { characteristic: 't', label: 'Закалка' }],
+  ['ловкие пальцы', { characteristic: 'dex', label: 'Ловкие пальцы' }],
+  ['меткость', { characteristic: 'bs', label: 'Меткость' }],
+  ['молниеносная реакция', { characteristic: 'ag', label: 'Молниеносная реакция' }],
+  ['прирожденный воин', { characteristic: 'ws', label: 'Прирождённый воин' }],
+  ['проницательность', { characteristic: 'i', label: 'Проницательность' }],
+  ['самообладание', { characteristic: 'wp', label: 'Самообладание' }],
+  ['силач', { characteristic: 's', label: 'Силач' }],
+  ['смекалка', { characteristic: 'int', label: 'Смекалка' }],
+  ['учтивость', { characteristic: 'fel', label: 'Учтивость' }],
+]);
+
+function automaticTalentKey(name) {
+  const key = normalize(name);
+  return AUTOMATIC_TALENT_ALIASES.get(key) || key;
+}
+
+export function calculateAutomaticTalentEffects(talents = []) {
+  const characteristicBonuses = {};
+  const characteristicSources = {};
+  const applied = new Set();
+  let hardyRanks = 0;
+
+  for (const talent of talents) {
+    const ranks = Math.max(0, Math.trunc(Number(talent?.taken ?? 1) || 0));
+    if (!ranks) continue;
+    const key = automaticTalentKey(talent?.name);
+    if (key === 'здоровяк') {
+      hardyRanks = Math.max(hardyRanks, ranks);
+      continue;
+    }
+    const effect = CHARACTERISTIC_TALENT_EFFECTS.get(key);
+    if (!effect || applied.has(key)) continue;
+    applied.add(key);
+    characteristicBonuses[effect.characteristic] = (characteristicBonuses[effect.characteristic] || 0) + 5;
+    characteristicSources[effect.characteristic] = effect.label;
+  }
+
+  return { characteristicBonuses, characteristicSources, hardyRanks };
+}
+
+export function calculateWounds(getCharacteristic, talents = []) {
+  const strengthBonus = Math.floor((Number(getCharacteristic('s')) || 0) / 10);
+  const toughnessBonus = Math.floor((Number(getCharacteristic('t')) || 0) / 10);
+  const willpowerBonus = Math.floor((Number(getCharacteristic('wp')) || 0) / 10);
+  const { hardyRanks } = calculateAutomaticTalentEffects(talents);
+  const hardyBonus = hardyRanks * toughnessBonus;
+  return {
+    value: strengthBonus + 2 * toughnessBonus + willpowerBonus + hardyBonus,
+    strengthBonus,
+    toughnessBonus,
+    willpowerBonus,
+    hardyRanks,
+    hardyBonus,
+  };
+}
 
 export function resolveTalentMaximum(formula, getBonus) {
   const source = String(formula || '').trim();
@@ -51,12 +127,23 @@ export function resolveDuration(duration, getBonus) {
   let changed = false;
 
   let result = source.replace(
-    /\[\s*(?:(\d+)\s*[xх×*]\s*)?РЕЙТИНГ\s+([^\]]+?)\s*\]/giu,
+    /\[\s*(?:(\d+)\s*[xх×*]\s*)?(?:РЕЙТИНГ\s+)?([^\]]+?)\s*\]/giu,
     (match, multiplier, characteristicName) => {
       const characteristic = CHARACTERISTIC_NAMES.get(normalize(characteristicName));
       if (!characteristic) return match;
       changed = true;
       return String((Number(multiplier) || 1) * (Number(getBonus(characteristic)) || 0));
+    },
+  );
+
+  result = result.replace(
+    /(?<![\p{L}\p{N}])(?:рейтинг|бонус)\s+(СВ|ББ|ДБ|Инт|Пр|С|В|И|Л|Х|сил(?:а|ы)\s+воли|навыка?\s+рукопашной|навыка?\s+стрельбы|силы|выносливости|инициативы|ловкости|проворства|интеллекта|общительности|харизмы)(?![\p{L}\p{N}])/giu,
+    (match, characteristicName) => {
+      const characteristic = DURATION_BONUS_CODES.get(normalize(characteristicName))
+        || CHARACTERISTIC_NAMES.get(normalize(characteristicName));
+      if (!characteristic) return match;
+      changed = true;
+      return String(Number(getBonus(characteristic)) || 0);
     },
   );
 

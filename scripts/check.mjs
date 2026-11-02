@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import { evaluateD100Check, resolveDuration, resolveTalentMaximum } from '../src/formulas.js';
+import { calculateAutomaticTalentEffects, calculateWounds, evaluateD100Check, resolveDuration, resolveTalentMaximum } from '../src/formulas.js';
 import TALENTS from '../src/data/talents.json' with { type: 'json' };
 import SPELLS from '../src/data/spells.json' with { type: 'json' };
 
@@ -9,11 +9,31 @@ const bonuses = { ws: 4, bs: 4, s: 5, t: 4, i: 5, ag: 4, dex: 3, int: 6, wp: 7, 
 const getBonus = (key) => bonuses[key] || 0;
 
 assert.equal(resolveDuration('рСВ минут', getBonus), '7 минут');
+assert.equal(resolveDuration('Рейтинг СВ минут', getBonus), '7 минут');
+assert.equal(resolveDuration('Бонус силы воли раундов', getBonus), '7 раундов');
+assert.equal(resolveDuration('[сила воли] минут', getBonus), '7 минут');
 assert.equal(resolveDuration('рСВ*2 раундов', getBonus), '14 раундов');
 assert.equal(resolveDuration('[2 × РЕЙТИНГ СИЛЫ ВОЛИ] РАУНДОВ+', getBonus), '14 РАУНДОВ+');
 assert.equal(resolveTalentMaximum('РИнт', getBonus).display, '6');
 assert.equal(resolveTalentMaximum('РИнт + РСВ', getBonus).display, '13');
 assert.equal(resolveTalentMaximum('Нет', getBonus).display, '∞');
+
+const automaticEffects = calculateAutomaticTalentEffects([
+  { name: 'Здоровяк', taken: 2 },
+  { name: 'Хладнокровный', taken: 1 },
+  { name: 'Молниеносные рефлексы', taken: 1 },
+  { name: 'Смекалка', taken: 2 },
+  { name: 'Силач', taken: 0 },
+]);
+assert.equal(automaticEffects.hardyRanks, 2, 'Здоровяк должен учитывать все взятые уровни');
+assert.equal(automaticEffects.characteristicBonuses.wp, 5, 'Старое имя «Хладнокровный» должно давать +5 СВ');
+assert.equal(automaticEffects.characteristicBonuses.ag, 5, 'Старое имя «Молниеносные рефлексы» должно давать +5 Лов');
+assert.equal(automaticEffects.characteristicBonuses.int, 5, 'Талант с максимумом 1 не должен умножать +5 на ошибочное число взятий');
+assert.equal(automaticEffects.characteristicBonuses.s, undefined, 'Талант с 0 взятий не должен давать бонус');
+
+const woundResult = calculateWounds((key) => ({ s: 28, t: 33, wp: 69 })[key], [{ name: 'Здоровяк', taken: 2 }]);
+assert.equal(woundResult.value, 20, 'Здоровяк 2 должен добавить 2×БВын к максимуму ран');
+assert.equal(woundResult.hardyBonus, 6);
 
 const crossedTen = evaluateD100Check(67, 59);
 assert.equal(crossedTen.success, true);
@@ -57,5 +77,11 @@ assert.ok(html.includes('id="portrait-file"') && html.includes('id="portrait-cro
 assert.ok(html.includes('id="dice-result-avatar"'), 'Миниатюра в результате броска не найдена');
 assert.ok(main.includes("attachment://character-portrait.png"), 'Портрет не включён в Discord-бросок');
 assert.ok(styles.includes('.schema-skills .data-head'), 'Ширина таблицы специализированных навыков не настроена');
+assert.ok(html.includes('id="spell-add-grimoire"'), 'Переключатель гримуара не подключён');
+assert.ok(main.includes("grimoire:Boolean(row.grimoire)"), 'Флаг гримуара не мигрирует между версиями JSON');
+assert.ok(styles.includes('.spell-entry.is-grimoire'), 'Оформление заклинаний из гримуара не найдено');
+assert.equal((html.match(/data-sheet-list-search=/g) || []).length, 3, 'Поиск должен быть у умений, талантов и заклинаний');
+assert.ok(main.includes('function filterSheetList(type)'), 'Фильтрация списков не подключена');
+assert.ok(styles.includes('.sheet-list-viewport{') && styles.includes('max-height:430px'), 'Прокрутка длинных списков не настроена');
 
-console.log(`Проверено: ${TALENTS.length} талантов, ${SPELLS.length} заклинаний, формулы, d100, портрет, 6 силуэтов, шрифт и две темы.`);
+console.log(`Проверено: ${TALENTS.length} талантов, ${SPELLS.length} заклинаний, автоэффекты талантов, формулы, d100, поиск и прокрутка списков, гримуар, портрет, 6 силуэтов, шрифт и две темы.`);
